@@ -1,0 +1,75 @@
+.wrapper
+  display: flex
+  font-family: Georgia, Garamond, "Times New Roman", Times, serif
+  background-color: #444 
+  color: #444
+  height: 100%
+
+  .mainContainer
+    display: flex
+    flex-direction: column
+    width: 70%
+    padding: 10px 80px
+    margin: 0 auto
+    background: #f5f5f5
+    border: solid 10px #666
+    border-width: 8px 0 2px 0
+    box-shadow: 0 1px 3px #000
+    @media(max-width: 700px)
+      padding: 40px
+    @media(max-width: 500px)
+      padding: 15px
+      width: 100%
+    @media(max-width: 345px)
+      padding: 10px 0
+
+    header
+      margin: 2.5em 0 3em 0
+      padding-bottom: 1.5em
+      border-bottom: 1px solid #ccc
+
+      div
+        display: flex
+        flex-direction: column
+       
+    h2
+      font-size: 48px
+      text-transform: uppercase
+      letter-spacing: 3px
+      padding: 0  
+      margin: 0
+      @media(max-width: 500px)
+        font-size: 24px
+  
+
+  .articleContainer
+    width: 100%
+    margin-bottom: 2em
+
+    .articleItem
+      display: flex
+      justify-content: space-between
+      margin-bottom: 2em
+      padding-bottom: 2em
+      border-bottom: 1px solid #ccc
+      @media(max-width: 300px)
+        flex-direction: column
+        padding: 10px
+     
+      .headerItem
+        width: 20%
+        padding: 0 20px
+        margin: 0
+
+      p
+        width: 80%  
+        font-size: 144%
+        line-height: 24px
+        margin-top: 15px
+        @media(max-width: 500px)
+        font-size: 100%
+
+
+h1, h2, h3, h4 
+  color: #333
+  font-weight: normal
