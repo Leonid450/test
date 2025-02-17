@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import styles from "./UserProfile.module.sass";
 import Header from "../../components/Header/Header";
+import { getUserdata } from "../../store/slices/userSlice";
 const UserProfile = (props) => {
+  useEffect(() => {
+    props.getUserdata();
+  }, []);
+  console.log(props.user);
+
   return (
     <>
       <Header />
@@ -78,16 +85,19 @@ const UserProfile = (props) => {
               </p>
             </div>
           </article>
+          <footer className={styles.footerContainer}></footer>
         </div>
       </div>
     </>
   );
 };
 
-// const mapStateToProps = (state) => {};
+const mStP = (state) => ({
+  user: state.userStore,
+});
 
-// const mapDispatchToProps = (dispatch) => ({
+const mDtp = (dispatch) => ({
+  getUserdata: () => dispatch(getUserdata()),
+});
 
-// });
-
-export default UserProfile;
+export default connect(mStP, mDtp)(UserProfile);
