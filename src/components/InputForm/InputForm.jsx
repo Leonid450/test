@@ -11,14 +11,21 @@ const InputForm = (props) => {
     console.log(username);
     props.getUser(username);
     history.replace(`/:${username}`);
-    window.location.reload();
+
     formikBag.resetForm();
   };
-
+  if (props.user) {
+    window.location.reload();
+  }
   return (
     <>
       <div className={styles.loginForm}>
-        <h2>LOGIN TO YOUR ACCOUNT</h2>
+        <h2>Find your resume</h2>
+        {props.error && (
+          <div>
+            <p>user with given username doesn’t exist</p>
+          </div>
+        )}
         <Formik
           initialValues={{
             username: "",
@@ -59,4 +66,8 @@ const InputForm = (props) => {
 const mapDispatchToProps = (dispatch) => ({
   getUser: (values) => dispatch(getUser(values)),
 });
-export default connect(null, mapDispatchToProps)(InputForm);
+const mStP = (state) => ({
+  user: state.userStore.data,
+  error: state.userStore.error,
+});
+export default connect(mStP, mapDispatchToProps)(InputForm);

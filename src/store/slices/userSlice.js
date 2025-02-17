@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { rejectedReducer } from "../../utils/store";
-
 import { Octokit } from "octokit";
+import CONSTANTS from "../../constants";
 const USER_SLICE_NAME = "user";
 
 const octokit = new Octokit({
-  auth: `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`,
+  auth: CONSTANTS.MY_TOKEN,
 });
 
 const initialState = {
@@ -15,18 +15,18 @@ const initialState = {
 };
 export const getUser = createAsyncThunk(
   `${USER_SLICE_NAME}/getUser`,
-  async ({ username }, { rejectWithValue }) => {
+  async (username, { rejectWithValue }) => {
     try {
-      const { data } = await octokit.request("GET /user", {
+      let { data } = await octokit.request("GET /user", {
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
         },
       });
-      console.log(username);
       if (data.login === username) {
         window.localStorage.userData = JSON.stringify(data);
+        console.log(username);
+        return data;
       }
-      return data;
     } catch (err) {
       return rejectWithValue({
         data: err?.response?.data ?? "Gateway Timeout",
@@ -47,12 +47,9 @@ const reducers = {
   clearUserStore: (state) => {
     state.error = null;
     state.data = null;
-  },
-  clearUserError: (state) => {
-    state.error = null;
+    window.localStorage.removeItem("userData");
   },
 };
-
 const extraReducers = (builder) => {
   builder.addCase(getUser.pending, (state) => {
     state.isFetching = true;
@@ -62,7 +59,6 @@ const extraReducers = (builder) => {
   builder.addCase(getUser.fulfilled, (state, { payload }) => {
     state.isFetching = false;
     state.data = payload;
-    window.localStorage.userData = JSON.stringify(state.data);
   });
   builder.addCase(getUser.rejected, rejectedReducer);
 };
@@ -76,6 +72,6 @@ const userSlice = createSlice({
 
 const { actions, reducer } = userSlice;
 
-export const { clearUserStore, clearUserError, getUserdata } = actions;
+export const { clearUserStore, getUserdata } = actions;
 
 export default reducer;
