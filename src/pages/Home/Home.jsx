@@ -3,7 +3,6 @@ import React from "react";
 import InputForm from "../../components/InputForm/InputForm";
 import styles from "./Home.module.sass";
 const Home = (props) => {
-  console.log(props);
   return (
     <>
       <div className={styles.mainContainer}>

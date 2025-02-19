@@ -1,28 +1,27 @@
 import React from "react";
-import history from "../../browserHistory";
 import { connect } from "react-redux";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import styles from "./InputForm.module.sass";
 import { getUser } from "../../store/slices/userSlice";
 import Schems from "../../utils/validationSchems";
+import { useNavigate } from "react-router-dom";
 
 const InputForm = (props) => {
+  let navigate = useNavigate();
   const handleSubmit = ({ username }, formikBag) => {
-    console.log(username);
     props.getUser(username);
-    history.replace(`/:${username}`);
 
     formikBag.resetForm();
   };
   if (props.user) {
-    window.location.reload();
+    navigate(`/:${props.user.login}`);
   }
   return (
     <>
       <div className={styles.loginForm}>
         <h2>Find your resume</h2>
         {props.error && (
-          <div>
+          <div className={styles.notFound}>
             <p>user with given username doesn’t exist</p>
           </div>
         )}
